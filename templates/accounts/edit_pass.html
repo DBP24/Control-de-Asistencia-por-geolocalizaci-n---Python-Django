@@ -1,0 +1,56 @@
+{% extends "layouts/nav_dashboard.html" %}
+{% load static %}
+{% block title %} Recuperar Contraseña {% endblock %}
+
+{% block content %}
+<div class="mt-2">
+    <!-- Charts -->
+    <!-- <div class="grid grid-cols-1 p-4 space-y-12 lg:gap-12 lg:space-y-0 lg:grid-cols-4"> -->
+    <div class="p-4 ">
+        <!-- Bar chart card -->
+        <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+            <!-- Card header -->
+            <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Hola
+                    <strong>{{user.first_name}}</strong> estas a punto de actualizar tus datos
+                </h4>
+                
+            </div>
+            <!-- Chart -->
+            <div class="relative p-4 h-100 w-100">
+                <form class="pe-5 ps-5" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-5 ">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{field.label}}</label>
+                        <!-- <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required /> -->
+                        {{field}}
+                        {% for error in field.errors %}
+                            <span class="alert alert-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+
+                    <button 
+                        class=" px-4 py-2 font-medium text-center text-white transition-colors duration-200 rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-darker">
+                        Actualizar Contraseña
+                    </button>
+
+
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!-- <style>
+    .bg-primary{
+        background-color: #32a8c6 ;
+    } 
+</style> -->
+
+
+
+{% endblock %}
