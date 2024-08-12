@@ -39,28 +39,28 @@ def dashboard(request):
     else:
        group = "Super Administrador"
 
-    context = {
-      'name_funtion' : f'Grupo - {group}'
-    }
-
     if hasattr(request.user, 'groups'):
       if request.user.is_superuser:
-        return render(request,'dash/dashboard.html', context)
+        dash_group = "is_superuser"
       
       elif request.user.groups.filter(name = "Administrador").exists():
-        return render(request,'dash/dashboard_admin.html', context)
+        dash_group = "Administrador"
       
       elif request.user.groups.exclude(name = "Administrador").exists():
-        return render(request,'dash/dashboard_user.html', context)
+        dash_group = "usuario"
       
       elif not request.user.groups.exists():
         messages.success(request,"Aún no se le asigna el grupo de trabajo")
         logout(request)
         return redirect('/accounts/login')
-      else : 
-        messages.success(request,"No cuenta con permisos")
-        logout(request)
-        return redirect('/accounts/login')
+      
+      context = {
+        'name_funtion' : f'Grupo - {group}',
+        'group' : dash_group
+      }
+      print(dash_group)
+
+      return render(request,'dash/dashboard.html', context)
 
     else:
       logout(request)
