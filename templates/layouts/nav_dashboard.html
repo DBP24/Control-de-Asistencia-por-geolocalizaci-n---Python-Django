@@ -272,15 +272,15 @@
                                     x-transition:leave-end="translate-y-1/2 opacity-0" @click.away="open = false"
                                     class="absolute right-0 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark"
                                     role="menu" aria-orientation="vertical" aria-label="User menu">
-                                    <a href="#" role="menuitem"
+                                    <a href="{%url 'accounts:update_profile' %}" role="menuitem"
                                         class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
                                         Perfil
                                     </a>
-                                    <a href="#" role="menuitem"
+                                    <a href="{%url 'accounts:update_password' %}" role="menuitem"
                                         class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
                                         Modificar Contraseña
                                     </a>
-                                    <a href="#" role="menuitem"
+                                    <a href="{% url 'accounts:logout' %}" role="menuitem"
                                         class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
                                         Cerrar Sesión
                                     </a>
@@ -311,7 +311,7 @@
                     <div
                         class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
                         <h1 class="text-2xl font-semibold">{{name_funtion}}</h1>
-                        <a href="{% url 'accounts:dashboard' %}" target="_blank"
+                        <a href="{% url 'accounts:dashboard' %}" 
                             class="px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark">
                             Ver Dashboard
                         </a>

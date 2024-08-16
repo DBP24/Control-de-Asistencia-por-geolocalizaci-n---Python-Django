@@ -1,0 +1,86 @@
+{% extends "layouts/nav_dashboard.html" %}
+{% load static %}
+{% block title %} Registro de Asistencia {% endblock %}
+
+{% block content %}
+<div class="mt-2">
+    <!-- Charts -->
+    <!-- <div class="grid grid-cols-1 p-4 space-y-12 lg:gap-12 lg:space-y-0 lg:grid-cols-4"> -->
+    <div class="p-4 ">
+        <!-- Bar chart card -->
+        <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+            <!-- Card header -->
+            <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Hola
+                    <strong>{{user.first_name}}</strong> {{ mensaje }}   
+                </h4>
+                
+            </div>
+            <!-- Chart -->
+            <div class="relative p-4 h-100 w-100">
+               
+
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Nombre de Usuario
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Nombres
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Apellidos
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Correo
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Grupo
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for us in users_%}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ us}}
+                </th>
+                <td class="px-6 py-4">
+                    {{us.last_name}}
+                </td>
+                <td class="px-6 py-4">
+                    {{us.first_name}}
+                </td>
+                <td class="px-6 py-4">
+                    {{us.email}}
+                </td>
+                <td class="px-6 py-4">
+                    {% for gr in us.groups.all %}
+                     {{gr.name}}
+                     {% empty %}
+                     Sin grupo
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+
+
+
+{%for message in messages %}
+{% include 'include/message.html' %}
+{% endfor %}
+{% endif %}
+{% endblock %}

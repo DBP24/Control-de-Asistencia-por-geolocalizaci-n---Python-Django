@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse_lazy    
 from django.contrib import messages
-from cvexpert.utils import limpiar_messages
+from cvexpert.utils import limpiar_messages, identify_role
 
 from dotenv import load_dotenv
 import os
@@ -17,8 +17,6 @@ from .models import ResetPasswordToken
 from django.contrib.sites.shortcuts import get_current_site
 
 from django.contrib.auth import get_user_model
-
-
 
 
 class UserLoginView(LoginView):
@@ -32,40 +30,9 @@ class UserLoginView(LoginView):
 
 @login_required
 def dashboard(request):
-    limpiar_messages(request,messages)
-    group = request.user.groups.all()
-    if group.exists():
-       group = group.first()
-    else:
-       group = "Super Administrador"
-
-    if hasattr(request.user, 'groups'):
-      if request.user.is_superuser:
-        dash_group = "is_superuser"
-      
-      elif request.user.groups.filter(name = "Administrador").exists():
-        dash_group = "Administrador"
-      
-      elif request.user.groups.exclude(name = "Administrador").exists():
-        dash_group = "usuario"
-      
-      elif not request.user.groups.exists():
-        messages.success(request,"Aún no se le asigna el grupo de trabajo")
-        logout(request)
-        return redirect('/accounts/login')
-      
-      context = {
-        'name_funtion' : f'Grupo - {group}',
-        'group' : dash_group
-      }
-      print(dash_group)
-
-      return render(request,'dash/dashboard.html', context)
-
-    else:
-      logout(request)
-      messages.success(request,"Usted no cuenta con permisos para acceder")
-      return redirect('/accounts')
+  limpiar_messages(request,messages)
+  context = identify_role(request)
+  return render(request,'dash/dashboard.html', context)
       
     
 
