@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse_lazy    
 from django.contrib import messages
-from cvexpert.utils import limpiar_messages, identify_role
+from cvexpert.utils import limpiar_messages, identify_role, generate_qr_code
 
 from dotenv import load_dotenv
 import os
@@ -40,6 +40,8 @@ def register(request):
   if request.method == 'POST':
     form = RegistrationForm(request.POST)
     if form.is_valid():
+      username = form.cleaned_data.get('username')
+      generate_qr_code(username) # save qr
       form.save()
       print('Account created successfully!')
       return redirect('/accounts/login/')
