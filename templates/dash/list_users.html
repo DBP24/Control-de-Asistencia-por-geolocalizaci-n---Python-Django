@@ -1,6 +1,6 @@
 {% extends "layouts/nav_dashboard.html" %}
 {% load static %}
-{% block title %} Registro de Asistencia {% endblock %}
+{% block title %} Listar Usuarios {% endblock %}
 
 {% block content %}
 <div class="mt-2">
@@ -21,8 +21,8 @@
                
 
 <div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table id="pagination-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead id="default-table" class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
                     Nombre de Usuario
@@ -67,7 +67,7 @@
                     {% endfor %}
                 </td>
                 <td class="px-6 py-4">
-                        
+                        xxx
                 </td>
             </tr>
             {% endfor %}
@@ -82,11 +82,10 @@
 </div>
 
 {% if messages %}
-
-
-
-{%for message in messages %}
-{% include 'include/message.html' %}
-{% endfor %}
+    {%for message in messages %}
+    {% include 'include/message.html' %}
+    {% endfor %}
 {% endif %}
+
 {% endblock %}
+

@@ -1,0 +1,48 @@
+{% extends "layouts/nav_dashboard.html" %}
+{% load static %}
+{% block title %} Asistencia {{ user}} {% endblock %}
+
+
+
+
+{% block content %}
+<div class="mt-2">
+    <!-- Charts -->
+    <!-- <div class="grid grid-cols-1 p-4 space-y-12 lg:gap-12 lg:space-y-0 lg:grid-cols-4"> -->
+    <div class="p-4 ">
+        <!-- Bar chart card -->
+        <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+            <!-- Card header -->
+            <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Hola
+                    <strong>{{user.first_name}}</strong> {{ mensaje }}
+                </h4>
+
+            </div>
+            <!-- Chart -->
+            <div class="relative p-4 h-100 w-100">
+                <form class="pe-5 ps-5" method="post">
+                    {% csrf_token %}
+                   <input type="hidden" name="delete" id="delete" value="{{id}}">
+                    <button 
+                        class=" px-4 py-2 font-medium text-center text-white transition-colors duration-200 rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-darker">
+                       Eliminar Actividad
+                    </button>
+
+                    <a href="{% url 'dashboard:listActivitys' %}"
+                        class=" px-4 py-2 font-medium text-center text-white transition-colors duration-200 rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-darker">
+                       Retornar
+                </a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+{%for message in messages %}
+{% include 'include/message.html' %}
+{% endfor %}
+{% endif %}
+{% endblock %}

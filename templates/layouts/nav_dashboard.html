@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8" />
@@ -13,6 +13,10 @@
         src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.5.x/dist/component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+
+    <!-- Data Table -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+
 </head>
 
 <body>
@@ -31,13 +35,13 @@
                     <!-- Sidebar links -->
                     <nav aria-label="Main" class="flex-1 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto">
 
-                      {% if group == 'Administrador' %}
-                      {% include 'include/admin/menu.html' %}
-                    {% elif group == 'is_superuser' %}
-                      {% include 'include/superuser/menu.html' %}
-                    {%else%}
-                      {% include 'include/clients/menu.html' %}
-                    {%endif%}
+                        {% if group == 'Administrador' %}
+                        {% include 'include/admin/menu.html' %}
+                        {% elif group == 'is_superuser' %}
+                        {% include 'include/superuser/menu.html' %}
+                        {%else%}
+                        {% include 'include/clients/menu.html' %}
+                        {%endif%}
 
 
                     </nav>
@@ -47,7 +51,7 @@
                         <a href="#" type="button"
                             class="flex items-center justify-center w-full px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary-dark focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark">
 
-                            <span>SITE WEB - Control de Asistencia</span>
+                            <span>SITE WEB - Control de Asistencia {{user.first_name}} {{user.last_name}}</span>
                         </a>
                     </div>
                 </div>
@@ -73,7 +77,7 @@
                         <!-- Brand -->
                         <a href="#"
                             class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light">
-                            Control de Asistencia
+                            Control de Asistencia - USUARIO :  {{user.first_name}} {{user.last_name}}
                         </a>
 
                         <!-- Mobile sub menu button -->
@@ -292,13 +296,13 @@
                     <div class="border-b md:hidden dark:border-primary-darker" x-show="isMobileMainMenuOpen"
                         @click.away="isMobileMainMenuOpen = false">
                         <nav aria-label="Main" class="px-2 py-4 space-y-2">
-                            
+
                             {% if group == 'Administrador' %}
-                              {% include 'include/admin/menu.html' %}
+                            {% include 'include/admin/menu.html' %}
                             {% elif group == 'is_superuser' %}
-                              {% include 'include/superuser/menu.html' %}
+                            {% include 'include/superuser/menu.html' %}
                             {%else%}
-                              {% include 'include/clients/menu.html' %}
+                            {% include 'include/clients/menu.html' %}
                             {%endif%}
 
                         </nav>
@@ -311,16 +315,26 @@
                     <div
                         class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
                         <h1 class="text-2xl font-semibold">{{name_funtion}}</h1>
-                        <a href="{% url 'accounts:dashboard' %}" 
+                        <a href="{% url 'accounts:dashboard' %}"
                             class="px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark">
                             Ver Dashboard
                         </a>
                     </div>
                     {% block content %}
-                    <h1 class="text-3xl font-semibold">Devdi-b24 - Diego Bonatti</h1>
-                    {% endblock %}
-                </main>
 
+                    {% endblock %}
+
+                </main>
+                <!-- Main footer -->
+                <footer
+                    class="flex items-center justify-between p-4 bg-white border-t dark:bg-darker dark:border-primary-darker">
+                    <div>DAREMA TECHNOLOGY S.A.C &copy; 2023</div>
+                    <div>
+                        Desarrollado por
+                        <a href="https://bonattipajuelo.com" target="_blank"
+                            class="text-blue-500 hover:underline">Diego Boantti</a>
+                    </div>
+                </footer>
             </div>
 
             <!-- Panels -->
@@ -554,6 +568,34 @@
     <script src="{% static 'js/color_page_dash.js' %}"></script>
     <script src="{% static 'js/alert_message.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verifica si la librería simpleDatatables está disponible
+            if (typeof simpleDatatables.DataTable !== 'undefined') {
+                // Función para inicializar la DataTable en una tabla específica
+                function initializeDataTable(tableId) {
+                    const tableElement = document.getElementById(tableId);
+                    if (tableElement) {
+                        new simpleDatatables.DataTable(tableElement, {
+                            paging: true,
+                            perPage: 5,
+                            perPageSelect: [5, 10, 15, 20, 25],
+                            sortable: false
+                        });
+                    }
+                }
+    
+                // Llama a la función para cada tabla que quieras inicializar
+                initializeDataTable('pagination-table');
+                initializeDataTable('table_groups');
+                initializeDataTable('list_activity');
+                // Puedes añadir más tablas aquí si es necesario
+            }
+        });
+    </script>
+    
+    
+
     {% endblock %}
 </body>
 

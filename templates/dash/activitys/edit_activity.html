@@ -1,0 +1,98 @@
+{% extends "layouts/nav_dashboard.html" %}
+{% load static %}
+{% block title %} Asistencia {{ user}} {% endblock %}
+
+
+
+
+{% block content %}
+<div class="mt-2">
+    <!-- Charts -->
+    <!-- <div class="grid grid-cols-1 p-4 space-y-12 lg:gap-12 lg:space-y-0 lg:grid-cols-4"> -->
+    <div class="p-4 ">
+        <!-- Bar chart card -->
+        <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+            <!-- Card header -->
+            <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Hola
+                    <strong>{{user.first_name}}</strong> {{ mensaje }}
+                </h4>
+
+            </div>
+            <!-- Chart -->
+            <div class="relative p-4 h-100 w-100">
+                <form class="pe-5 ps-5" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button 
+                    class=" px-4 py-2 font-medium text-center text-white transition-colors duration-200 rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-darker">
+                   Actualizar
+                </button>
+                </form>
+                <br>
+                <div>
+                 
+
+                <a href="{% url 'dashboard:listActivitys' %}"
+                    class=" px-4 py-2 font-medium text-center text-white transition-colors duration-200 rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-darker">
+                   Retornar
+            </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+    {%for message in messages %}
+        {% include 'include/message.html' %}
+    {% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var groupSelect = document.getElementById('id_group');
+        // var userSelect = document.getElementById('id_users');
+        // userSelect.innerHTML = '';
+        function handleGroupChange() {
+            var groupId = groupSelect.value;
+            if (groupId) {
+                fetchUsers(groupId)
+            }
+        }
+
+        groupSelect.addEventListener('change', handleGroupChange);
+    });
+
+    function fetchUsers(groupId) {
+        // Usar Django template tag para obtener la URL del endpoint
+        var url = `{% url 'dashboard:get_users_by_group' %}`;
+        var fullUrl = `${url}?group_id=${groupId}`;
+
+        fetch(fullUrl)
+            .then(response => response.json())
+            .then(data => {
+                var userSelect = document.getElementById('id_users');
+                // Limpiar las opciones existentes antes de agregar nuevas
+                // userSelect.innerHTML = '<option value="">Seleccione un usuario</option>';
+                userSelect.innerHTML = '';
+
+                if (data.length === 0) {
+                    userSelect.innerHTML = '<option>No hay datos disponibles</option>';
+                } else {
+                    data.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user.id;
+                        option.textContent = `${user.username} - ${user.first_name} ${user.last_name}`;
+                        userSelect.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+{% endblock %}

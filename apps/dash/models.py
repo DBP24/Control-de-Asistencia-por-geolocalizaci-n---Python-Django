@@ -59,6 +59,9 @@ class RegistroActivity(models.Model):
         blank=True,
         related_name='register_activity_updated'
     )
+
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='register_activities')
+
     
     def __str__(self):
-        return self.name
+        return  f'{self.name} - {self.description}'

@@ -17,7 +17,7 @@ from .models import ResetPasswordToken
 from django.contrib.sites.shortcuts import get_current_site
 
 from django.contrib.auth import get_user_model
-
+from apps.dash.models import RegistroActivity
 
 class UserLoginView(LoginView):
   template_name = 'accounts/login.html'
@@ -32,6 +32,8 @@ class UserLoginView(LoginView):
 def dashboard(request):
   limpiar_messages(request,messages)
   context = identify_role(request)
+  activity = RegistroActivity.objects.filter(users = request.user)
+  context.update({'activity' : activity})
   return render(request,'dash/dashboard.html', context)
       
     
